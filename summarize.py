@@ -1,11 +1,10 @@
-# summarize.py
 import re
 import httpx
 import os
 from bs4 import BeautifulSoup
 
 API_KEY = os.getenv("GEMINI_API_KEY")
-API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
+API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
 async def fetch_html(url):
     async with httpx.AsyncClient() as client:
@@ -45,7 +44,7 @@ async def summarize_policy(url):
 
     if len(cleaned_text.split()) > 7000:
         raise ValueError("Privacy policy is too long to summarize.")
-        
+
     payload = {
     "contents": [{ "parts": [{ "text": "Analyze the given privacy policy and return structured JSON following the schema exactly with values extracted from privacy policy.\n\n{cleaned_text}" }] }],
     "generationConfig": {
